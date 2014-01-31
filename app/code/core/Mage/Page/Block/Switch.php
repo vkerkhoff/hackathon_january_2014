@@ -71,7 +71,7 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
             $stores = array();
             foreach ($websiteStores as $store) {
                 /* @var $store Mage_Core_Model_Store */
-                if (!$store->getIsActive()) {
+                if (!$store->getIsActive() || !$store->getIsVisible()) {
                     continue;
                 }
                 $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
