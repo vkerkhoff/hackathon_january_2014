@@ -1166,6 +1166,16 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check if store is active
+     *
+     * @return boolean|null
+     */
+    public function getIsVisible()
+    {
+        return $this->_getData('is_visible');
+    }
+
+    /**
      * Retrieve store name
      *
      * @return string|null
