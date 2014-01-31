@@ -206,6 +206,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'values'    => $yesnoSource,
         ));
 
+        $fieldset->addField('empty_behavior', 'select', array(
+            'name'      => 'empty_behavior',
+            'label'     => Mage::helper('catalog')->__('Empty Attribute Behavior'),
+            'title'     => Mage::helper('catalog')->__('Empty Attribute Behavior'),
+            'values'    => Mage::getModel('catalog/product_attribute_source_behavior')->getAllOptions(),
+        ),'is_visible_on_front');
+
         $fieldset->addField('used_in_product_listing', 'select', array(
             'name'      => 'used_in_product_listing',
             'label'     => Mage::helper('catalog')->__('Used in Product Listing'),
@@ -235,8 +242,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
             ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
             ->addFieldMap("frontend_input", 'frontend_input_type')
+            ->addFieldMap('empty_behavior','empty_behavior')
+            ->addFieldMap('is_visible_on_front','visible_on_front')
             ->addFieldDependence('wysiwyg_enabled', 'frontend_input_type', 'textarea')
             ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
+            ->addFieldDependence('empty_behavior','visible_on_front','1')
         );
 
         Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(

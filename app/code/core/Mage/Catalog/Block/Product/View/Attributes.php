@@ -61,11 +61,45 @@ class Mage_Catalog_Block_Product_View_Attributes extends Mage_Core_Block_Templat
             if ($attribute->getIsVisibleOnFront() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
                 $value = $attribute->getFrontend()->getValue($product);
 
-                if (!$product->hasData($attribute->getAttributeCode())) {
-                    $value = Mage::helper('catalog')->__('N/A');
-                } elseif ((string)$value == '') {
-                    $value = Mage::helper('catalog')->__('No');
-                } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
+                if (!$product->hasData($attribute->getAttributeCode()) || (string)$value == '') {
+
+                    switch($attribute->getEmptyBehavior()){
+                        case Mage_Catalog_Model_Product_Attribute_Source_Behavior::EMPTY_SHOW_NA:
+                            $value = Mage::helper('catalog')->__('No');
+                            if(!$product->hasData($attribute->getAttributeCode())){
+                                $value = Mage::helper('catalog')->__('N/A');
+                            }
+                            break;
+                        case Mage_Catalog_Model_Product_Attribute_Source_Behavior::EMPTY_SHOW_DEFAULT:
+                            $value = $attribute->getDefaultValue();
+                            if (in_array($attribute->getFrontendInput(), array('select'))) {
+                                $value = $attribute->getFrontend()->getOption($value);
+                            }elseif($attribute->getFrontendInput()=='date'){
+                                $value = Mage::helper('core')->formatDate($value);
+                            }
+                            if(!$product->hasData($attribute->getAttributeCode()) && (string)$value == ''){
+                                $value = Mage::helper('catalog')->__('N/A');
+                            }elseif((string)$value == ''){
+                                $value = Mage::helper('catalog')->__('No');
+                            }
+                            break;
+                        case Mage_Catalog_Model_Product_Attribute_Source_Behavior::EMPTY_HIDE_NO_DEFAULT:
+                            $value = $attribute->getDefaultValue();
+                            if (in_array($attribute->getFrontendInput(), array('select'))) {
+                                $value = $attribute->getFrontend()->getOption($value);
+                            }elseif($attribute->getFrontendInput()=='date'){
+                                $value = Mage::helper('core')->formatDate($value);
+                            }
+                            if((string)$value==''){
+                                continue;
+                            }
+                            break;
+                        case Mage_Catalog_Model_Product_Attribute_Source_Behavior::EMPTY_HIDE:
+                            continue;
+                            break;
+                    }
+                }
+                if ($attribute->getFrontendInput() == 'price' && is_string($value)) {
                     $value = Mage::app()->getStore()->convertPrice($value, true);
                 }
 

@@ -101,7 +101,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
         $value = $object->getData($this->getAttribute()->getAttributeCode());
         if (in_array($this->getConfigField('input'), array('select','boolean'))) {
             $valueOption = $this->getOption($value);
-            if (!$valueOption) {
+            /*if (!$valueOption) {
                 $opt     = Mage::getModel('eav/entity_attribute_source_boolean');
                 $options = $opt->getAllOptions();
                 if ($options) {
@@ -111,7 +111,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
                         }
                     }
                 }
-            }
+            }*/
             $value = $valueOption;
         } elseif ($this->getConfigField('input') == 'multiselect') {
             $value = $this->getOption($value);
