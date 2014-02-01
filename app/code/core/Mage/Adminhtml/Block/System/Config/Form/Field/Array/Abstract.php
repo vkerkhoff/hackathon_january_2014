@@ -102,6 +102,21 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
         if ((!empty($params['renderer'])) && ($params['renderer'] instanceof Mage_Core_Block_Abstract)) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
+
+        /* Specified field type, default: text */
+        if ((!empty($params['type']))) {
+            $this->_columns[$name]['type'] = $params['type'];
+        }else{
+            $this->_columns[$name]['type'] = 'text';
+        }
+
+        /* Specified options for select or multiselect */
+        if ((!empty($params['options']))) {
+            $this->_columns[$name]['options'] = $params['options'];
+        }else{
+            $this->_columns[$name]['options'] = array();
+        }
+
     }
 
     /**
@@ -176,10 +191,41 @@ abstract class Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
                 ->toHtml();
         }
 
-        return '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' .
-            ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
-            (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
-            (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
+
+        switch ($column['type']) {
+            case "text":
+                $html = '<input type="text" name="' . $inputName . '" value="#{' . $columnName . '}" ' .
+                    ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
+                    (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
+                    (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
+                break;
+            case "multiselect":
+                $html = '<input type="hidden" value="#{' . $columnName . '}" disabled="disabled" class="is-enabled-hidden" />';
+                $html .= '<select name="' . $inputName . '[]" value="#{' . $columnName . '}" ' . ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' . (isset($column['class']) ? $column['class'] : 'select multiselect') . '"' . (isset($column['style']) ? ' style="' . $column['style'] . '"' : '') . ' multiple=multiple>';
+
+                if (is_array($column['options'])) {
+                    foreach ($column['options'] as $key => $val) {
+                        $html .= '<option value="' . $key . '">' . $val . '</option>';
+                    }
+                }
+
+                $html .= "</select>";
+                break;
+            case "select":
+                $html = '<input type="hidden" value="#{' . $columnName . '}" disabled="disabled" class="is-enabled-hidden" />';
+                $html .= '<select name="' . $inputName . '" value="#{' . $columnName . '}" ' . ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' . (isset($column['class']) ? $column['class'] : 'select') . '"' . (isset($column['style']) ? ' style="' . $column['style'] . '"' : '') . '>';
+
+                if (is_array($column['options'])) {
+                    foreach ($column['options'] as $key => $val) {
+                        $html .= '<option value="' . $key . '">' . $val . '</option>';
+                    }
+                }
+
+                $html .= "</select>";
+                break;
+        }
+
+        return $html;
     }
 
     /**

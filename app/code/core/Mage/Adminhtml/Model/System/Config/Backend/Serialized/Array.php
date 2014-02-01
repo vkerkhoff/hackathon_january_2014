@@ -40,6 +40,16 @@ class Mage_Adminhtml_Model_System_Config_Backend_Serialized_Array extends Mage_A
         if (is_array($value)) {
             unset($value['__empty']);
         }
+
+        // Convert multiselect values to single line
+        foreach ($value as $id => $fields) {
+            foreach ($fields as $key => $val) {
+                if (is_array($val)) {
+                    $value[$id][$key] = implode(',', $val);
+                }
+            }
+        }
+
         $this->setValue($value);
         parent::_beforeSave();
     }

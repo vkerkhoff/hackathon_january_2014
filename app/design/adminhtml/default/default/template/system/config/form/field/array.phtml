@@ -160,5 +160,14 @@ arrayRow<?php echo $_htmlId ?>.showButtonOnly();
 <?php if ($this->getElement()->getDisabled()):?>
 toggleValueElements({checked:true}, $('grid<?php echo $_htmlId ?>').parentNode);
 <?php endif;?>
+
+// Select correct values for select and multiselect
+$$('.is-enabled-hidden').each(function (el) {
+    var values = el.value.split(',');
+    var count;
+    for (count = 0; count < values.length; count += 1) {
+        el.next('select').select('option[value=' + values[count] + ']')[0].writeAttribute('selected', 'selected');
+    }
+
 //]]>
 </script>
