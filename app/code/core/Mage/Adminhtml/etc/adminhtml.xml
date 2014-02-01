@@ -82,6 +82,11 @@
                     <action>adminhtml/system_variable</action>
                     <sort_order>65</sort_order>
                 </variable>
+                <dbtranslations translate="title">
+                    <title>Database Translations</title>
+                    <action>adminhtml/system_translation</action>
+                    <sort_order>66</sort_order>
+                </dbtranslations>
                 <acl translate="title">
                     <title>Permissions</title>
                     <sort_order>70</sort_order>
@@ -209,6 +214,10 @@
                                 <title>Custom Variables</title>
                                 <sort_order>45</sort_order>
                             </variable>
+                            <dbtranslations translate="title">
+                                <title>Database Translations</title>
+                                <sort_order>46</sort_order>
+                            </dbtranslations>
                             <myaccount translate="title">
                                 <title>My Account</title>
                                 <sort_order>50</sort_order>
