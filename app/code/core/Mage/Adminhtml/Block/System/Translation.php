@@ -23,26 +23,25 @@
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
 /**
- * Locale source
+ * DB Translation Block
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Source_Locale
+
+class Mage_Adminhtml_Block_System_Translation extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    public function toOptionArray()
+    /**
+     * Block constructor
+     */
+    public function __construct()
     {
-        return Mage::app()->getLocale()->getOptionLocales();
+        $this->_controller = 'system_translation';
+        $this->_headerText = Mage::helper('adminhtml')->__('Database Translations');
+        parent::__construct();
+        $this->_updateButton('add', 'label', Mage::helper('adminhtml')->__('Add New Translation'));
     }
-
-    public function toOptionHash()
-    {
-        $locales=array();
-        foreach(Mage::app()->getLocale()->getOptionLocales() as $locale) {
-            $locales[$locale['value']] = $locale['label'];
-        }
-        return $locales;
-    }
-
 }

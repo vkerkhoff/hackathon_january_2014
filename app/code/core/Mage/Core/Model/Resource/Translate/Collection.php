@@ -19,30 +19,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Core
  * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
- 
+
+
 /**
- * Locale source
+ * Translate collection
  *
+ * @category    Mage
+ * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_System_Config_Source_Locale
+class Mage_Core_Model_Resource_Translate_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
-    public function toOptionArray()
-    {
-        return Mage::app()->getLocale()->getOptionLocales();
-    }
 
-    public function toOptionHash()
+    /**
+     *  Define resource model
+     *
+     */
+    protected function _construct()
     {
-        $locales=array();
-        foreach(Mage::app()->getLocale()->getOptionLocales() as $locale) {
-            $locales[$locale['value']] = $locale['label'];
-        }
-        return $locales;
+        $this->_init('core/translate');
     }
 
 }

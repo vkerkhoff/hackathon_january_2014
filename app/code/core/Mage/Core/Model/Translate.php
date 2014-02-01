@@ -29,7 +29,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Translate
+class Mage_Core_Model_Translate extends Mage_Core_Model_Abstract
 {
     const CSV_SEPARATOR     = ',';
     const SCOPE_SEPARATOR   = '::';
@@ -106,6 +106,7 @@ class Mage_Core_Model_Translate
 
     public function __construct()
     {
+        $this->_init('core/translate');
     }
 
     /**
@@ -327,14 +328,14 @@ class Mage_Core_Model_Translate
      *
      * @return array
      */
-    public function getData()
+/*    public function getData()
     {
         if (is_null($this->_data)) {
             return array();
             //Mage::throwException('Translation data is not initialized. Please contact developers.');
         }
         return $this->_data;
-    }
+    } */
 
     /**
      * Retrieve locale

@@ -28,6 +28,7 @@
 class Mage_Adminhtml_Model_System_Config_Source_Store
 {
     protected $_options;
+    protected $_hash;
     
     public function toOptionArray()
     {
@@ -36,5 +37,15 @@ class Mage_Adminhtml_Model_System_Config_Source_Store
                 ->load()->toOptionArray();
         }
         return $this->_options;
+    }
+
+    public function toOptionHash()
+    {
+        if (!$this->_hash) {
+            $this->_hash = array_merge(array(0=>Mage::helper('adminhtml')->__('All Store Views')),
+                Mage::getResourceModel('core/store_collection')
+                ->load()->toOptionHash());
+        }
+        return $this->_hash;
     }
 }
